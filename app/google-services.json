@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "495469995855",
+    "project_id": "coloringbook-e8461",
+    "storage_bucket": "coloringbook-e8461.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495469995855:android:db5b64a6f2f1f36120073a",
+        "android_client_info": {
+          "package_name": "com.hse.practice.paintting.coloringbook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUesIrS3L-Hh_PaZoz3_jiQ8Drh1Y9jh8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
