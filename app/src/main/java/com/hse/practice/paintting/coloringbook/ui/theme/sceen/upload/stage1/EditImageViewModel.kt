@@ -55,18 +55,36 @@ class EditImageViewModel @Inject constructor(
         uri: Uri,
         selectedOption: String,
         trianglesNumber: Int,
-        isBlackAndWhite: Boolean = false
+        isBlackAndWhite: Boolean = false,
+        selectedColor: Int
     ) {
         viewModelScope.launch {
             var bitmap = bitmapFromUri
             Log.i("MyApp", "EditImageViewModel: bitmap $bitmapFromUri / \n $isBlackAndWhite")
             if (isBlackAndWhite && bitmapFromUri != null) {
-
-                 bitmap= filterService.applyBlackAndWhiteFilter(bitmapFromUri)
-
+                bitmap = filterService.applyBlackAndWhiteFilter(bitmapFromUri)
                 Log.i("MyApp", "EditImageViewModel: finished black and white filter")
 
             }
+            Log.i(
+                "MyApp",
+                "EditVM: colorInt: ${selectedColor}"
+            )
+            if (selectedColor != 0 && selectedColor != -1 && selectedColor != -16777216) {
+                val colorInt = if ((selectedColor and 0xFF000000.toInt()) == 0) {
+                    selectedColor or 0xFF000000.toInt()
+                } else {
+                    selectedColor
+                }
+                Log.i(
+                    "MyApp",
+                    "EditVM: updated colorInt: ${selectedColor}"
+                )
+                bitmap =
+                    bitmapFromUri?.let { filterService.applyProportionalColorFilter(colorInt, it) }
+
+            }
+
             val imageId = saveImage(bitmap, uri, selectedOption)
             _saveState.value = SaveState.Saving
             Log.i("MyApp", "EditImageViewModel: imageId was saved with id = $imageId")

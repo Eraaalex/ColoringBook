@@ -16,10 +16,8 @@ class PointsGeneratorImpl @Inject constructor() : PointsGenerator {
         val numberOfPoints = (numberOfTriangle + 4) / 2
         val numberOfBoundaryPoints = numberOfPoints / 24
         val points: MutableList<Point> = mutableListOf()
-
         val width = image.width.toDouble()
         val height = image.height.toDouble()
-
         points.run {
             add(Point(0.0, 0.0))
             add(Point(width, 0.0))
@@ -30,13 +28,11 @@ class PointsGeneratorImpl @Inject constructor() : PointsGenerator {
         for (i in 0..<numberOfPoints) {
             points.add(
                 Point(
-                    Random.nextDouble(width*0.15, width*0.85),
-                    Random.nextDouble(height*0.15, height*0.85)
+                    Random.nextDouble(width * 0.15, width * 0.85),
+                    Random.nextDouble(height * 0.15, height * 0.85)
                 )
             )
         }
-
-        // Generation of boundaries' points
         for (i in 1..<numberOfBoundaryPoints) {
             points.run {
                 val t = i / numberOfBoundaryPoints.toDouble()
@@ -46,7 +42,6 @@ class PointsGeneratorImpl @Inject constructor() : PointsGenerator {
                 points.add(Point(image.width.toDouble(), (t * image.height)))
             }
         }
-
         return points
     }
 }

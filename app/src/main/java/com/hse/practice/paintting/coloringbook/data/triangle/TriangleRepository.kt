@@ -5,16 +5,17 @@ import com.hse.practice.paintting.coloringbook.model.Triangle
 import com.hse.practice.paintting.coloringbook.model.entity.TriangleEntity
 import javax.inject.Inject
 
-class TriangleRepository  @Inject constructor(private val triangleDao: TriangleDao) {
+class TriangleRepository @Inject constructor(private val triangleDao: TriangleDao) {
 
     suspend fun insertTriangle(triangleEntity: TriangleEntity) {
         triangleDao.insert(triangleEntity)
     }
+
     suspend fun insertTriangles(triangles: List<Triangle>, imageId: Long) {
         triangleDao.insertTrianglesAtomic(triangles, imageId)
     }
 
-    suspend fun updateTriangle(triangle: Triangle, imageId : Long) {
+    suspend fun updateTriangle(triangle: Triangle, imageId: Long) {
         val triangleEntity = triangleDao.findTriangleByCoordinates(
             triangle.v0.x.toFloat(), triangle.v0.y.toFloat(),
             triangle.v1.x.toFloat(), triangle.v1.y.toFloat(),

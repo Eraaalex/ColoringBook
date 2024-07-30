@@ -4,11 +4,7 @@ import android.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.hse.practice.paintting.coloringbook.Converters
-import com.hse.practice.paintting.coloringbook.model.Point
 
 
 @Entity(tableName = "hexagons")
@@ -19,7 +15,7 @@ data class HexagonEntity(
     @ColumnInfo(name = "center") val center: String,
     @ColumnInfo(name = "vertices") val vertices: String,
     @ColumnInfo(name = "color") var color: Int = Color.WHITE,
-    @ColumnInfo(name = "current_color") var currentColor: Int= Color.WHITE,
+    @ColumnInfo(name = "current_color") var currentColor: Int = Color.WHITE,
     @ColumnInfo(name = "number") var number: Int
 )
 

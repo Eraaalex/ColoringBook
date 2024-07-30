@@ -9,24 +9,19 @@ import kotlin.math.absoluteValue
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
+
 class HexagonService {
 
     fun processImage(image: Bitmap, numHexagons: Int): List<Hexagon> {
         val hexagons = mutableListOf<Hexagon>()
-
         val imageWidth = image.width
         val imageHeight = image.height
-
         val hexRadius = calculateHexRadius(imageWidth, imageHeight, numHexagons)
         Log.e("MyApp", "hex radius $hexRadius")
         val hexHeight = hexRadius * sqrt(3.0)
         val hexWidth = hexRadius * 2
-
-        // Расчет количества шестиугольников в строках и столбцах
         val numCols = (imageWidth / (hexWidth * 0.75)).toInt() + 1
         val numRows = (imageHeight / hexHeight).toInt() + 1
-
-        // Создание шестиугольников
         var hexCount = 0
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
@@ -43,14 +38,19 @@ class HexagonService {
         return hexagons
     }
 
-    fun calculateHexRadius(imageWidth: Int, imageHeight: Int, numHexagons: Int): Double {
-        // Примерный расчет радиуса шестиугольников на основе площади изображения и числа шестиугольников
+    private fun calculateHexRadius(imageWidth: Int, imageHeight: Int, numHexagons: Int): Double {
         val imageArea = imageWidth * imageHeight
         val hexArea = imageArea / numHexagons
         return sqrt(hexArea / (1.5 * sqrt(3.0)))
     }
 
-    fun createHexagon(centerX: Double, centerY: Double, radius: Double, image: Bitmap, number: Int): Hexagon? {
+    private fun createHexagon(
+        centerX: Double,
+        centerY: Double,
+        radius: Double,
+        image: Bitmap,
+        number: Int
+    ): Hexagon? {
         val vertices = mutableListOf<Point>()
         for (i in 0 until 6) {
             val angle = Math.PI / 3 * i
@@ -61,14 +61,16 @@ class HexagonService {
             }
             vertices.add(Point(x, y))
         }
-
-        // Определение цвета шестиугольника
         val color = getHexagonColor(centerX, centerY, image)
-        return Hexagon(center = Point(centerX, centerY), vertices = vertices, color = color, number = number)
+        return Hexagon(
+            center = Point(centerX, centerY),
+            vertices = vertices,
+            color = color,
+            number = number
+        )
     }
 
-    fun getHexagonColor(centerX: Double, centerY: Double, image: Bitmap): Int {
-        // Пример: использование цвета центрального пикселя для цвета шестиугольника
+    private fun getHexagonColor(centerX: Double, centerY: Double, image: Bitmap): Int {
         val pixelX = centerX.toInt().coerceIn(0, image.width - 1)
         val pixelY = centerY.toInt().coerceIn(0, image.height - 1)
         return image.getPixel(pixelX, pixelY)
@@ -82,12 +84,17 @@ class HexagonService {
 
         for (y in (centerY - radius)..(centerY + radius)) {
             for (x in (centerX - radius)..(centerX + radius)) {
-                if (x in 0 until image.width && y in 0 until image.height && isPointInHexagon(Point(x.toDouble(), y.toDouble()), hexagon)) {
+                if (x in 0 until image.width && y in 0 until image.height && isPointInHexagon(
+                        Point(
+                            x.toDouble(),
+                            y.toDouble()
+                        ), hexagon
+                    )
+                ) {
                     pixels.add(image.getPixel(x, y))
                 }
             }
         }
-
         val averageColor = pixels
             .fold(intArrayOf(0, 0, 0)) { acc, pixel ->
                 acc[0] += Color.red(pixel)
@@ -97,7 +104,6 @@ class HexagonService {
             }
             .map { it / pixels.size }
             .let { Color.rgb(it[0], it[1], it[2]) }
-
         return averageColor
     }
 

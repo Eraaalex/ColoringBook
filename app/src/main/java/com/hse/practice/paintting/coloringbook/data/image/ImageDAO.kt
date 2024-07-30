@@ -34,7 +34,7 @@ interface ImageDAO {
     fun getByUri(uri: String): ImageEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(image: ImageEntity) : Long
+    suspend fun insert(image: ImageEntity): Long
 
     @Query("SELECT * FROM images WHERE uid = :uid")
     fun getById(uid: Long): ImageEntity?

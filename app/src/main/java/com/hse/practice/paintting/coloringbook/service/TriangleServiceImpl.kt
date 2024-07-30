@@ -18,7 +18,8 @@ interface TriangleServiceA {
     fun getAverageColor(triangle: Triangle, bitmap: Bitmap): Int
 
 }
-class TriangleServiceImpl : TriangleServiceA  {
+
+class TriangleServiceImpl : TriangleServiceA {
     private fun getBounding(enclosing: CircumCircle): Triangle {
         val ang1 = 0.0
         val ang2 = PI * 2 / 3
@@ -169,7 +170,14 @@ class TriangleServiceImpl : TriangleServiceA  {
         return distance(p.x, p.y, c.c.x, c.c.y) <= c.r * (1 + 1e-14)
     }
 
-    private fun crossProduct(x0: Double, y0: Double, x1: Double, y1: Double, x2: Double, y2: Double): Double {
+    private fun crossProduct(
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        x2: Double,
+        y2: Double
+    ): Double {
         return (x1 - x0) * (y2 - y0) - (y1 - y0) * (x2 - x0)
     }
 

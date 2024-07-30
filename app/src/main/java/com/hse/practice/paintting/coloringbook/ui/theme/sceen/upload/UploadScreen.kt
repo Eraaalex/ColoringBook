@@ -38,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.hse.practice.paintting.coloringbook.model.entity.ImageEntity
 import com.hse.practice.paintting.coloringbook.ui.theme.EmptyHeader
 import com.hse.practice.paintting.coloringbook.ui.theme.ImagesListWithButton
 

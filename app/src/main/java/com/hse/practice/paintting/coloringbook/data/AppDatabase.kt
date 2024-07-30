@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
@@ -12,7 +11,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.bumptech.glide.Glide
-import com.google.firebase.firestore.FirebaseFirestore
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.storage.FirebaseStorage
 import com.hse.practice.paintting.coloringbook.Converters
 import com.hse.practice.paintting.coloringbook.R
@@ -25,10 +25,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 
-@Database(entities = [ImageEntity::class, TriangleEntity::class, HexagonEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [ImageEntity::class, TriangleEntity::class, HexagonEntity::class],
+    version = 1,
+    exportSchema = false
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -77,12 +79,16 @@ abstract class AppDatabase : RoomDatabase() {
             Log.e("MyApp", "ыещкфпу = $storage, result = ${result.items}")
             return result.items.mapNotNull { it.downloadUrl.await().toString() }
         }
+
         fun loadBitmapFromUrl(context: Context, url: String, onComplete: (Bitmap?) -> Unit) {
             Glide.with(context)
                 .asBitmap()
                 .load(url)
                 .into(object : SimpleTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
                         onComplete(resource)
                     }
 
@@ -91,7 +97,12 @@ abstract class AppDatabase : RoomDatabase() {
                 })
         }
 
-        suspend fun saveImageToLocalDatabase(context: Context, imageDao: ImageDAO, name: String, imageUrl: String) {
+        suspend fun saveImageToLocalDatabase(
+            context: Context,
+            imageDao: ImageDAO,
+            name: String,
+            imageUrl: String
+        ) {
             loadBitmapFromUrl(context, imageUrl) { bitmap ->
                 if (bitmap != null) {
                     val imageEntity = ImageEntity(

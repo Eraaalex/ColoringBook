@@ -7,7 +7,6 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.hse.practice.paintting.coloringbook.model.Hexagon
 import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
-import com.hse.practice.paintting.coloringbook.model.entity.TriangleEntity
 import com.hse.practice.paintting.coloringbook.toEntity
 
 @Dao
@@ -33,7 +32,7 @@ interface HexagonDAO {
     }
 
     @Query("SELECT * FROM hexagons WHERE image_id = :imageId AND vertices = :vertices")
-    suspend fun findHexagonByCoordinates(vertices : String, imageId : Long): HexagonEntity?
+    suspend fun findHexagonByCoordinates(vertices: String, imageId: Long): HexagonEntity?
 
 
 }

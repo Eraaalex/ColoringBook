@@ -13,7 +13,7 @@ data class Hexagon(
     val center: Point,
     val vertices: List<Point>,
     var color: Int = Color.WHITE,
-    var currentColor : Int = Color.WHITE,
+    var currentColor: Int = Color.WHITE,
     var number: Int = -1
 ) {
     var colorState by mutableIntStateOf(color)

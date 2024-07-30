@@ -15,7 +15,7 @@ data class Triangle(
     val v1: Point,
     val v2: Point,
     var color: Int = Color.WHITE,
-    var currentColor : Int = Color.WHITE,
+    var currentColor: Int = Color.WHITE,
     var number: Int = -1
 ) {
     val circumCirc: CircumCircle = calcCircumCirc(v0, v1, v2)
@@ -68,7 +68,6 @@ data class Triangle(
 
         return CircumCircle(center, radius)
     }
-
 
 
     fun contains(point: Offset): Boolean {

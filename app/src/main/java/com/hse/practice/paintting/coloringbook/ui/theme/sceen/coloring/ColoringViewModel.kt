@@ -76,7 +76,6 @@ class ColoringViewModel @Inject constructor(
             }
 
 
-
         }
     }
 
@@ -90,7 +89,7 @@ class ColoringViewModel @Inject constructor(
                     triangleRepository.updateTriangle(it, id)
                     Log.e("MyApp", "CWM: updateTriangles: triangle one saved as = $it")
                 }
-                val imdd =  imageRepository.getImageById(img.uid)
+                val imdd = imageRepository.getImageById(img.uid)
                 Log.e("MyApp", "CWM: updateTriangles: image saved as = $imdd")
                 val trigs = triangleRepository.getTrianglesForImage(id)
                 Log.e("MyApp", "CWM: updateTriangles: triangles saved as = $trigs")

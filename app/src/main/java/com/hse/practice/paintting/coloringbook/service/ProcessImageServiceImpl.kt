@@ -6,9 +6,7 @@ import com.hse.practice.paintting.coloringbook.model.Triangle
 import javax.inject.Inject
 
 interface ProcessImageService {
-
     public fun processImageHexagons(image: Bitmap, numTriangles: Int): List<Hexagon>
-
     public fun processImageTriangles(image: Bitmap, numTriangles: Int): List<Triangle>
 }
 
@@ -34,8 +32,6 @@ class ProcessImageServiceImpl @Inject constructor(
             hexagon.copy(color = averageColor, number = colorNumber)
         }
     }
-
-
 
     override fun processImageTriangles(image: Bitmap, numTriangles: Int): List<Triangle> {
         val points = pointsGenerator.generatePoints(image, numTriangles)

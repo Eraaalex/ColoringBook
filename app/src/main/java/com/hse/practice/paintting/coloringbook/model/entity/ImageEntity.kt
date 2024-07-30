@@ -21,5 +21,5 @@ data class ImageEntity(
     @ColumnInfo("uri")
     val uri: String = Uri.encode(Uri.EMPTY.toString()),
     @ColumnInfo("selected_option")
-    val selectedOption : String = "triangles"
+    val selectedOption: String = "triangles"
 ) {}

@@ -9,9 +9,9 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hse.practice.paintting.coloringbook.model.Hexagon
-import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
 import com.hse.practice.paintting.coloringbook.model.Point
 import com.hse.practice.paintting.coloringbook.model.Triangle
+import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
 import com.hse.practice.paintting.coloringbook.model.entity.TriangleEntity
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -69,7 +69,7 @@ fun getBitmapFromUri(context: Context, uri: Uri): Bitmap? {
         val source = ImageDecoder.createSource(context.contentResolver, uri)
         val bitmap = ImageDecoder.decodeBitmap(source)
 
-         if (bitmap.config == Bitmap.Config.HARDWARE) {
+        if (bitmap.config == Bitmap.Config.HARDWARE) {
             bitmap.copy(Bitmap.Config.ARGB_8888, false)
         } else {
             bitmap

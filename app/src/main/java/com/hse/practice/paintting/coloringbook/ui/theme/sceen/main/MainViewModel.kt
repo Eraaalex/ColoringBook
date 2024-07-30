@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     lateinit var imageRepository: ImageRepository
     fun getAllImages(): List<ImageEntity> {
         viewModelScope.launch() {
-          val all = imageRepository.getAllImages()
+            val all = imageRepository.getAllImages()
 
             images_.value = all.filter { !it.isStarted }
         }

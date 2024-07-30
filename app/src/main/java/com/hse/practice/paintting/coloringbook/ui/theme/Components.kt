@@ -123,7 +123,8 @@ fun ColorRowList(
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
-            .height(98.dp).background(Color.White),
+            .height(98.dp)
+            .background(Color.White),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -305,11 +306,12 @@ fun ColoringCanvasHex(
                                     } else {
                                         selectedColor
                                     }
-                                hexagon.currentColor = if ((selectedColor and 0xFF000000.toInt()) == 0) {
-                                    selectedColor or 0xFF000000.toInt()
-                                } else {
-                                    selectedColor
-                                }
+                                hexagon.currentColor =
+                                    if ((selectedColor and 0xFF000000.toInt()) == 0) {
+                                        selectedColor or 0xFF000000.toInt()
+                                    } else {
+                                        selectedColor
+                                    }
                                 onUpgated(listOf(hexagon))
                                 hexagon.showNumber = false
                             }

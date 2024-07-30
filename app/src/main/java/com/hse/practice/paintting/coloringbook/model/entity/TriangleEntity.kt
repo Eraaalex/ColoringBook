@@ -16,6 +16,6 @@ data class TriangleEntity(
     @ColumnInfo(name = "v2_x") val v2X: Float,
     @ColumnInfo(name = "v2_y") val v2Y: Float,
     @ColumnInfo(name = "color") var color: Int = Color.WHITE,
-    @ColumnInfo(name = "current_color") var currentColor : Int = Color.WHITE,
+    @ColumnInfo(name = "current_color") var currentColor: Int = Color.WHITE,
     @ColumnInfo(name = "number") var number: Int = -1
 )

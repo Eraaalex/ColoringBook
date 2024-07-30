@@ -38,7 +38,7 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun provideFilterSevice() : FilterService {
+    fun provideFilterSevice(): FilterService {
         return FilterServiceImpl()
     }
 

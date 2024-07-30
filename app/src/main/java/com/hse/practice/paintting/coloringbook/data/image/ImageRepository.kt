@@ -6,9 +6,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-class ImageRepository  @Inject constructor(private val imageDao: ImageDAO) {
+class ImageRepository @Inject constructor(private val imageDao: ImageDAO) {
 
-    suspend fun insertImage(imageEntity: ImageEntity) : Long {
+    suspend fun insertImage(imageEntity: ImageEntity): Long {
         return withContext(Dispatchers.IO) {
             imageDao.insertImages(imageEntity).first()
         }

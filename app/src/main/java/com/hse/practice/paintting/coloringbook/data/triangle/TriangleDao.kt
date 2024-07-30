@@ -32,7 +32,15 @@ interface TriangleDao {
     }
 
     @Query("SELECT * FROM triangles WHERE image_id = :imageId AND v0_x = :v0X AND v0_y = :v0Y AND v1_x = :v1X AND v1_y = :v1Y AND v2_x = :v2X AND v2_y = :v2Y")
-    suspend fun findTriangleByCoordinates(v0X: Float, v0Y: Float, v1X: Float, v1Y: Float, v2X: Float, v2Y: Float, imageId : Long): TriangleEntity?
+    suspend fun findTriangleByCoordinates(
+        v0X: Float,
+        v0Y: Float,
+        v1X: Float,
+        v1Y: Float,
+        v2X: Float,
+        v2Y: Float,
+        imageId: Long
+    ): TriangleEntity?
 
 
 }
