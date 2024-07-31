@@ -1,4 +1,4 @@
-package com.hse.practice.paintting.coloringbook
+package com.hse.practice.paintting.coloringbook.utils
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -15,17 +15,6 @@ import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
 import com.hse.practice.paintting.coloringbook.model.entity.TriangleEntity
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-
-fun Bitmap.toByteArray(): ByteArray {
-    val stream = ByteArrayOutputStream()
-    this.compress(Bitmap.CompressFormat.PNG, 100, stream)
-    return stream.toByteArray()
-}
-
-fun ByteArray.toBitmap(): Bitmap {
-    return BitmapFactory.decodeByteArray(this, 0, this.size)
-}
-
 
 class Converters {
     @TypeConverter
