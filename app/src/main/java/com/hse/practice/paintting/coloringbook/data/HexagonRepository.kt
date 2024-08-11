@@ -1,6 +1,7 @@
 package com.hse.practice.paintting.coloringbook.data
 
 import android.util.Log
+import com.hse.practice.paintting.coloringbook.utils.Converters
 import com.hse.practice.paintting.coloringbook.model.Hexagon
 import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
 import kotlinx.coroutines.Dispatchers
@@ -32,9 +33,22 @@ class HexagonRepository @Inject constructor(private val hexagonDao: HexagonDAO) 
         }
     }
 
-    suspend fun updateHexagon(hexagonEntity: HexagonEntity) {
-        withContext(Dispatchers.IO) {
-            hexagonDao.update(hexagonEntity)
+    suspend fun updateHexagon(hexagon: Hexagon, imageId: Long) {
+        val convert = Converters()
+        val verticesString = convert.fromPointList(hexagon.vertices)
+
+        val hexagonEntity = hexagonDao.findHexagonByCoordinates(verticesString, imageId)
+
+        if (hexagonEntity != null) {
+            val updatedEntity = hexagonEntity.copy(
+                color = hexagon.color,
+                currentColor = hexagon.currentColor,
+                number = hexagon.number
+            )
+
+            hexagonDao.update(updatedEntity)
+        } else {
+            Log.e("HexagonRepository", "Hexagon not found for update: $hexagon")
         }
     }
 

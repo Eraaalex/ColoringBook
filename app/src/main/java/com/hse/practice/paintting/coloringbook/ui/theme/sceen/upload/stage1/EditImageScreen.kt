@@ -59,7 +59,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberImagePainter
-import com.hse.practice.paintting.coloringbook.getBitmapFromUri
+import com.hse.practice.paintting.coloringbook.utils.getBitmapFromUri
 import com.hse.practice.paintting.coloringbook.getScreenWidth
 import com.hse.practice.paintting.coloringbook.scaleBitmap
 import com.hse.practice.paintting.coloringbook.ui.theme.EmptyHeader

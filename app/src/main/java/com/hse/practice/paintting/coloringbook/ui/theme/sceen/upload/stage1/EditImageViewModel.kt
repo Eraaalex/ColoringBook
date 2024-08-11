@@ -106,7 +106,7 @@ class EditImageViewModel @Inject constructor(
 
                     "hexagons" -> {
                         val figs = processImageService.processImageHexagons(
-                            bitmapFromUri!!,
+                            bitmap!!,
                             trianglesNumber
                         )
                         Log.d("MyApp", "[EditVM] generated hexagones: $figs")

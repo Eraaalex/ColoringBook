@@ -4,7 +4,7 @@ import android.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.hse.practice.paintting.coloringbook.Converters
+import com.hse.practice.paintting.coloringbook.utils.Converters
 
 
 @Entity(tableName = "hexagons")

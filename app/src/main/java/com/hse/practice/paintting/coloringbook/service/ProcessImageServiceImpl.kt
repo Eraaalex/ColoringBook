@@ -18,12 +18,11 @@ class ProcessImageServiceImpl @Inject constructor(
 
     private val colorToNumberMap_ = mutableMapOf<Int, Int>()
     val colorToNumberMap = colorToNumberMap_
-    private var nextColorNumber = 1
-
 
     override fun processImageHexagons(image: Bitmap, numTriangles: Int): List<Hexagon> {
         val hexes = hexagonService.processImage(image, numTriangles)
         val colorToNumberMap = mutableMapOf<Int, Int>()
+        var nextColorNumber = 1
         return hexes.map { hexagon ->
             val averageColor = hexagonService.getAverageColor(image, hexagon)
             val colorNumber = colorToNumberMap.getOrPut(averageColor) {
@@ -36,16 +35,14 @@ class ProcessImageServiceImpl @Inject constructor(
     override fun processImageTriangles(image: Bitmap, numTriangles: Int): List<Triangle> {
         val points = pointsGenerator.generatePoints(image, numTriangles)
         val triangles = triangleService.triangulate(points)
+        var nextColorNumber = 1
         return triangles.map { triangle ->
             val averageColor = triangleService.getAverageColor(triangle, image)
-            val colorNumber = getColorNumber(averageColor)
+            val colorNumber = colorToNumberMap_.getOrPut(averageColor) {
+                nextColorNumber++
+            }
             triangle.copy(color = averageColor, number = colorNumber)
         }
     }
 
-    private fun getColorNumber(color: Int): Int {
-        return colorToNumberMap_.getOrPut(color) {
-            nextColorNumber++
-        }
-    }
 }

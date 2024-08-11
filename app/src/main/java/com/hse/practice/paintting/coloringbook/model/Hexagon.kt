@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 
 
 data class Hexagon(
@@ -20,21 +21,38 @@ data class Hexagon(
     var currentColorState by mutableIntStateOf(currentColor)
     var showNumber by mutableStateOf(true)
 
-    fun contains(point: Offset): Boolean {
+    fun contains(point: Offset, canvasSize : Size, scale : Float, offset : Offset): Boolean {
         Log.d("MyApp", "HEX: check if $point is in $vertices")
         var intersects = 0
+        val canvasWidth = canvasSize.width
+        val canvasHeight = canvasSize.height
+        val pointList = ArrayList<Point>()
+        for (point1 in vertices){
+            val centeredX = point1.x - canvasWidth / 2
+            val centeredY = point1.y - canvasHeight / 2
+
+            val scaledX = centeredX * scale
+            val scaledY = centeredY * scale
+
+            val x = scaledX + canvasWidth / 2 + offset.x
+            val y = scaledY + canvasHeight / 2 + offset.y
+            pointList.add(Point(x, y))
+        }
+
         val x = point.x.toDouble()
         val y = point.y.toDouble()
 
-        for (i in vertices.indices) {
-            val v1 = vertices[i]
-            val v2 = vertices[(i + 1) % vertices.size]
+        for (i in pointList.indices) {
+            val v1 = pointList[i]
+            val v2 = pointList[(i + 1) % pointList.size]
 
             if (rayIntersectsSegment(x, y, v1, v2)) {
                 intersects++
             }
         }
         return (intersects % 2) == 1
+
+
     }
 
     private fun rayIntersectsSegment(px: Double, py: Double, v1: Point, v2: Point): Boolean {

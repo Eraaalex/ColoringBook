@@ -29,7 +29,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.hse.practice.paintting.coloringbook.getBitmapFromUri
+import com.hse.practice.paintting.coloringbook.utils.getBitmapFromUri
 import com.hse.practice.paintting.coloringbook.ui.theme.ColoringCanvas
 import com.hse.practice.paintting.coloringbook.ui.theme.ColoringCanvas2
 

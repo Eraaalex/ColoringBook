@@ -10,9 +10,8 @@ import com.hse.practice.paintting.coloringbook.model.Hexagon
 import com.hse.practice.paintting.coloringbook.model.Triangle
 import com.hse.practice.paintting.coloringbook.model.entity.ImageEntity
 import com.hse.practice.paintting.coloringbook.service.ProcessImageService
-import com.hse.practice.paintting.coloringbook.toEntity
-import com.hse.practice.paintting.coloringbook.toHexagon
-import com.hse.practice.paintting.coloringbook.toTriangle
+import com.hse.practice.paintting.coloringbook.utils.toHexagon
+import com.hse.practice.paintting.coloringbook.utils.toTriangle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -106,7 +105,7 @@ class ColoringViewModel @Inject constructor(
                 _image.value = img.copy(isStarted = true)
                 imageRepository.updateImage(img)
                 coloringHexagons.forEach {
-                    hexagonRepository.updateHexagon(it.toEntity(id))
+                    hexagonRepository.updateHexagon(it, id)
                     Log.d("MyApp", "update hexagon: $it")
                 }
             }

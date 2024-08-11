@@ -7,7 +7,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.hse.practice.paintting.coloringbook.model.Hexagon
 import com.hse.practice.paintting.coloringbook.model.entity.HexagonEntity
-import com.hse.practice.paintting.coloringbook.toEntity
+import com.hse.practice.paintting.coloringbook.utils.toEntity
 
 @Dao
 interface HexagonDAO {

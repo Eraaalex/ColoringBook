@@ -52,16 +52,18 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
 import androidx.navigation.NavHostController
-import com.hse.practice.paintting.coloringbook.getBitmapFromUri
 import com.hse.practice.paintting.coloringbook.model.Hexagon
 import com.hse.practice.paintting.coloringbook.model.Point
 import com.hse.practice.paintting.coloringbook.model.Triangle
 import com.hse.practice.paintting.coloringbook.model.entity.ImageEntity
+import com.hse.practice.paintting.coloringbook.utils.getBitmapFromUri
 
 @Composable
 fun ColorCircle(color: Int, number: Int, onClick: () -> Unit) {
@@ -262,103 +264,11 @@ fun ColoringCanvas(
 
 }
 
-
-@Composable
-fun ColoringCanvasHex(
-    modifier: Modifier,
-    hexagons: List<Hexagon>,
-    palette: Map<Int, Int>,
-    scaledImage: Bitmap?,
-    onUpgated: (List<Hexagon>) -> Unit
-) {
-    var selectedColor by remember { mutableStateOf(Color.White.toArgb()) }
-    val coloringHexagons = remember { mutableStateListOf(*hexagons.toTypedArray()) }
-    var scale by remember { mutableStateOf(1f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
-    var delta by remember { mutableStateOf(Offset.Zero) }
-
-    Log.i(
-        "MyApp",
-        "ColoringScreen: number of fetched hexagons by id, num = ${hexagons.size} \n palette = $palette"
-    )
-
-    Box(modifier = modifier.fillMaxSize()) {
-        Canvas(
-            modifier = Modifier
-                .fillMaxWidth()
-                .pointerInput(Unit) {
-                    detectTransformGestures { _, pan, zoom, _ ->
-                        scale *= zoom
-                        offset += pan
-                        delta = Offset(delta.x + pan.x / zoom, delta.y + pan.y / zoom)
-                    }
-                }
-                .pointerInput(Unit) {
-                    detectTapGestures { offsetClick ->
-                        val adjustedClick = (offsetClick - offset) / scale
-                        Log.d("MyApp", "adjustedClick = $adjustedClick")
-                        coloringHexagons.forEach { hexagon ->
-                            if (hexagon.contains(adjustedClick)) {
-                                Log.d("MyApp", "HEX: hexagon clicked $hexagon")
-                                hexagon.colorState =
-                                    if ((selectedColor and 0xFF000000.toInt()) == 0) {
-                                        selectedColor or 0xFF000000.toInt()
-                                    } else {
-                                        selectedColor
-                                    }
-                                hexagon.currentColor =
-                                    if ((selectedColor and 0xFF000000.toInt()) == 0) {
-                                        selectedColor or 0xFF000000.toInt()
-                                    } else {
-                                        selectedColor
-                                    }
-                                onUpgated(listOf(hexagon))
-                                hexagon.showNumber = false
-                            }
-                        }
-                    }
-                }
-        ) {
-            withTransform({
-                translate(offset.x, offset.y)
-                scale(scale, scale)
-            }) {
-                coloringHexagons.forEach { hexagon ->
-                    drawIntoCanvas { canvas ->
-                        val path = Path().apply {
-                            fillType = PathFillType.EvenOdd
-                            moveTo(hexagon.vertices[0].x.toFloat(), hexagon.vertices[0].y.toFloat())
-                            hexagon.vertices.forEach { vertex ->
-                                lineTo(vertex.x.toFloat(), vertex.y.toFloat())
-                            }
-                            close()
-                        }
-                        drawPath(path, color = androidx.compose.ui.graphics.Color(hexagon.color))
-                        if (hexagon.showNumber) {
-                            drawNumber(hexagon)
-                        }
-                    }
-                }
-            }
-        }
-        ColorRowList(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 72.dp),
-            colorList = palette,
-            onColorSelected = { newColor ->
-                selectedColor = newColor
-            }
-        )
-    }
-}
-
-
 fun DrawScope.drawNumber(triangle: Triangle) {
     val text = triangle.number.toString()
     val textPaint = android.graphics.Paint().apply {
         color = android.graphics.Color.BLACK
-        textSize = 24f
+        textSize = 14f
         textAlign = android.graphics.Paint.Align.CENTER
         isAntiAlias = true
     }
@@ -386,6 +296,8 @@ fun ColoringCanvas2(
     var scale by remember { mutableStateOf(1f) }
     var offset by remember { mutableStateOf(Offset.Zero) }
     var delta by remember { mutableStateOf(Offset.Zero) }
+    var canvasSize by remember { mutableStateOf(androidx.compose.ui.geometry.Size.Zero) }
+
     Box(modifier = modifier.fillMaxSize()) {
 
         Canvas(modifier = Modifier
@@ -394,16 +306,39 @@ fun ColoringCanvas2(
                 detectTransformGestures { _, pan, zoom, _ ->
                     scale *= zoom
                     offset += pan
-                    delta = Offset(delta.x + pan.x / zoom, delta.y + pan.y / zoom)
                 }
+            }
+            .onGloballyPositioned { coordinates ->
+                canvasSize = coordinates.size.toSize()
             }
             .pointerInput(Unit) {
                 detectTapGestures { offsetClick ->
 
                     val adjustedClick = (offsetClick - offset) / scale
-                    Log.e("MyApp", "hex adjustedClick = $adjustedClick")
+                    Log.e(
+                        "MyApp2", "hex adjustedClick = $adjustedClick \n" +
+                                "offClick = $offsetClick, scale = $scale, offdelta = $offset"
+                    )
+
+                    val canvasWidth = canvasSize.width
+                    val canvasHeight = canvasSize.height
+                    val point : Offset = Offset(110f, 93.9f)
+                    val centeredX = point.x - canvasWidth / 2
+                    val centeredY = point.y - canvasHeight / 2
+
+                    val scaledX = centeredX * scale
+                    val scaledY = centeredY * scale
+
+                    val transformedX = scaledX + canvasWidth / 2 + offset.x
+                    val transformedY = scaledY + canvasHeight / 2 + offset.y
+
+                    Log.e(
+                        "MyApp2", "hex new off = ${Offset(transformedX, transformedY)}  \n" +
+                                "offClick = $offsetClick, scale = $scale, offdelta = $offset"
+                    )
+
                     coloringHexagons.forEach { hexagon ->
-                        if (hexagon.contains(adjustedClick)) {
+                        if (hexagon.contains(offsetClick, canvasSize, scale, offset)) {
                             hexagon.colorState = if ((selectedColor and 0xFF000000.toInt()) == 0) {
                                 selectedColor or 0xFF000000.toInt()
                             } else {
@@ -460,7 +395,7 @@ fun DrawScope.drawNumber(hexagon: Hexagon) {
     val text = hexagon.number.toString()
     val textPaint = android.graphics.Paint().apply {
         color = android.graphics.Color.BLACK
-        textSize = 24f
+        textSize = 14f
         textAlign = android.graphics.Paint.Align.CENTER
         isAntiAlias = true
     }

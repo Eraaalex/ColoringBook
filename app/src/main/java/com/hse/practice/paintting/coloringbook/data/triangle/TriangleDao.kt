@@ -8,7 +8,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.hse.practice.paintting.coloringbook.model.Triangle
 import com.hse.practice.paintting.coloringbook.model.entity.TriangleEntity
-import com.hse.practice.paintting.coloringbook.toEntity
+import com.hse.practice.paintting.coloringbook.utils.toEntity
 
 @Dao
 interface TriangleDao {

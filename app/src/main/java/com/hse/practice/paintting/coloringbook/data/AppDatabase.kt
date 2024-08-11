@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.storage.FirebaseStorage
-import com.hse.practice.paintting.coloringbook.Converters
+import com.hse.practice.paintting.coloringbook.utils.Converters
 import com.hse.practice.paintting.coloringbook.R
 import com.hse.practice.paintting.coloringbook.data.image.ImageDAO
 import com.hse.practice.paintting.coloringbook.data.triangle.TriangleDao
